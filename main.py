@@ -74,6 +74,5 @@ personalFunds_entry.grid(row=1,column=1)
 submitButton.grid(row=3,column=2)
 resultLabel.grid(row=5,column=0)
 #TODO for IWORK Student employement 
-
 #Loop Window for display
 root.mainloop()
