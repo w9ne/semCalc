@@ -33,8 +33,6 @@ def calculate():
             iworkAnnualCalc = 4
         else:
             resultText = ("Invalid amount entered")
-
-
         
         #add better calc
         result1 = ((programSponsorFundsNum*4)/12) * numSemesters
@@ -47,7 +45,7 @@ def calculate():
             f"Personal Funds: ${result2:,.0f}\n"
             f"IWORK Student Employment: ${result3:,.0f}"
         )
-        resultLabel.config(text=resultText,justify='center')
+        resultLabel.config(text=resultText,justify='left')
         
         
     except ValueError:
