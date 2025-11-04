@@ -1,25 +1,34 @@
 import tkinter as tk
 from tkinter import *
+from tkinter import messagebox
 
 root = tk.Tk()
 root.title("Financial Semester Calculator")
 root.geometry("410x170")
 
 #Initialize and Start Window
-sem = tk.IntVar()
-prgSponFunds = tk.IntVar()
-personalFunds = tk.IntVar()
-iworkStudentEmployment = tk.IntVar()
-costOfAttendance = tk.IntVar()
+sem = tk.StringVar()
+prgSponFunds = tk.StringVar()
+personalFunds = tk.StringVar()
+iworkStudentEmployment = tk.StringVar()
+costOfAttendance = tk.StringVar()
+
+#Int Check
+def intCheck(value,varName):
+    try:
+        return int(value)
+    except ValueError:
+        messagebox.showerror("Invalid Input", f"{varName} must be a number.")
+        return None
 
 #Actual Code
 def calculate():
     try:
         #Getters
-        programSponsorFundsNum = int(prgSponFunds.get())
-        personalFundsNum = int(personalFunds.get())
-        numSemesters = int(sem.get())
-        costAttendance = int(costOfAttendance.get())
+        programSponsorFundsNum = intCheck(prgSponFunds.get(),"Progran Sponsor Funds")
+        personalFundsNum = intCheck(personalFunds.get(), "Personal Funds")
+        numSemesters = intCheck(sem.get(),"Number Of Semesters")
+        costAttendance = intCheck(costOfAttendance.get(), "Cost of Attendance")
 
         #Setters to 0 to initialize
         prgSponFunds.set(0)
@@ -59,6 +68,7 @@ def calculate():
         #Display error msg
         resultLabel.config(text="Needs to be number")
         print("Error code")
+        return None
 
 #Label Program Sponsor Funds
 
