@@ -3,26 +3,33 @@ from tkinter import *
 
 root = tk.Tk()
 root.title("Financial Semester Calculator")
-root.geometry("400x170")
+root.geometry("410x170")
 
 #Initialize and Start Window
 sem = tk.IntVar()
 prgSponFunds = tk.IntVar()
 personalFunds = tk.IntVar()
 iworkStudentEmployment = tk.IntVar()
+costOfAttendance = tk.IntVar()
 
 #Actual Code
 def calculate():
     try:
+        #Getters
         programSponsorFundsNum = int(prgSponFunds.get())
         personalFundsNum = int(personalFunds.get())
         numSemesters = int(sem.get())
+        costAttendance = int(costOfAttendance.get())
 
+        #Setters to 0 to initialize
         prgSponFunds.set(0)
         personalFunds.set(0)
         iworkStudentEmployment.set(0)
         sem.set(0)
+        costOfAttendance.set(0)
         
+        #Personal funds go by year, not by semesters
+        #Checks if number is between the semester, adjusts to yearly family contribution
         if 0 <= numSemesters <= 3:
             iworkAnnualCalc = 1
         elif 4 <= numSemesters <= 6:
@@ -37,7 +44,7 @@ def calculate():
         #add better calc
         result1 = ((programSponsorFundsNum*4)/12) * numSemesters
         result2 = (personalFundsNum*iworkAnnualCalc)
-        initialCal = ((150864/12) * numSemesters) - result1
+        initialCal = ((costAttendance*4/12) * numSemesters) - result1
         result3 = initialCal - result2
         
         resultText = (
@@ -51,8 +58,19 @@ def calculate():
     except ValueError:
         #Display error msg
         resultLabel.config(text="Needs to be number")
+        print("Error code")
 
 #Label Program Sponsor Funds
+
+#Cost of Attendence (annual)
+coa_label = tk.Label(root,
+text='Cost of Attendance (annually)',
+font=('calibre',10,'bold')
+)
+
+coa_entry = tk.Entry(root,
+textvariable= costOfAttendance,
+font=('calibre',10,'normal'))
 
 #Number of Semesters left
 semester_label = tk.Label(root,
@@ -100,11 +118,13 @@ font=('calibre',10,'bold'))
 #Placing labels inside the window for display
 semester_label.grid(row=0,column=0)
 semester_entry.grid(row=0,column=1)
-programSponsorFunds_label.grid(row=1,column=0)
-prgSponFunds_entry.grid(row=1,column=1)
-personalFunds_label.grid(row=2,column=0)
-personalFunds_entry.grid(row=2,column=1)
-submitButton.grid(row=3,column=1)
+coa_label.grid(row=1,column=0)
+coa_entry.grid(row=1,column=1)
+programSponsorFunds_label.grid(row=2,column=0)
+prgSponFunds_entry.grid(row=2,column=1)
+personalFunds_label.grid(row=3,column=0)
+personalFunds_entry.grid(row=3,column=1)
+submitButton.grid(row=4,column=1)
 resultLabel.grid(row=8,column=0)
 
 #Loop Window for display
