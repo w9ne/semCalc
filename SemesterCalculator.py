@@ -1,6 +1,7 @@
 import tkinter as tk
 from tkinter import *
 from tkinter import messagebox
+from datetime import datetime
 
 root = tk.Tk()
 root.title("Financial Semester Calculator")
@@ -12,6 +13,16 @@ prgSponFunds = tk.StringVar()
 personalFunds = tk.StringVar()
 iworkStudentEmployment = tk.StringVar()
 costOfAttendance = tk.StringVar()
+estimatedProgramEndDate = tk.StringVar()
+
+#Array of Semesters
+SEMESTERS = ["Spring", "Fall", "Winter"]
+
+def checkSemesterDate():
+    month = datetime.now().month
+    year = datetime.now().year
+
+
 
 #Int Check
 def intCheck(value,varName):
@@ -25,7 +36,7 @@ def intCheck(value,varName):
 def calculate():
     try:
         #Getters
-        programSponsorFundsNum = intCheck(prgSponFunds.get(),"Progran Sponsor Funds")
+        programSponsorFundsNum = intCheck(prgSponFunds.get(),"Program Sponsor Funds")
         personalFundsNum = intCheck(personalFunds.get(), "Personal Funds")
         numSemesters = intCheck(sem.get(),"Number Of Semesters")
         costAttendance = intCheck(costOfAttendance.get(), "Cost of Attendance")
@@ -50,11 +61,11 @@ def calculate():
         else:
             resultText = ("Invalid amount entered")
         
-        #add better calc
-        result1 = ((programSponsorFundsNum*4)/12) * numSemesters
-        result2 = (personalFundsNum*iworkAnnualCalc)
-        initialCal = ((costAttendance*4/12) * numSemesters) - result1
-        result3 = initialCal - result2
+        #add better calc cuz this lowkey sucks
+        result1 = ((programSponsorFundsNum*4)/12) * numSemesters #Program sponsor funds
+        result2 = (personalFundsNum*iworkAnnualCalc) #Personal funds
+        initialCal = ((costAttendance*4/12) * numSemesters) - result1 
+        result3 = initialCal - result2 #IWORK employment
         
         resultText = (
             f"Program Sponsor Funds: ${result1:,.0f}\n"
