@@ -18,9 +18,20 @@ estimatedProgramEndDate = tk.StringVar()
 #Array of Semesters
 SEMESTERS = ["Spring", "Fall", "Winter"]
 
-def checkSemesterDate():
-    month = datetime.now().month
-    year = datetime.now().year
+def predictSemester():
+    day = datetime.day()
+    month = datetime.month()
+    year = datetime.year()
+
+    #what semester is it now?
+    if month in [1,2,3,4]:
+        if day >= 25 and month == 4:
+            startSem = "Spring" # for late start spring or usually spring sems?
+        else:
+            startSem = "Winter"
+    else:
+        startSem = "Fall"
+
 
 
 
