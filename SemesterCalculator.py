@@ -5,7 +5,7 @@ from datetime import datetime
 
 root = tk.Tk()
 root.title("Financial Semester Calculator")
-root.geometry("410x170")
+root.geometry("410x300")
 
 #Initialize and Start Window
 sem = tk.StringVar()
@@ -14,14 +14,36 @@ personalFunds = tk.StringVar()
 iworkStudentEmployment = tk.StringVar()
 costOfAttendance = tk.StringVar()
 estimatedProgramEndDate = tk.StringVar()
+startSemVar = tk.StringVar()
+startYearVar = tk.StringVar()
 
 #Array of Semesters
-SEMESTERS = ["Spring", "Fall", "Winter"]
+SEMESTERS = ["Winter", "Spring", "Fall"]
 
-def checkSemesterDate():
-    month = datetime.now().month
-    year = datetime.now().year
+#what sem am i graduating??
+def predictSemester():
+    numSemesters = intCheck(sem.get(), "Number Of Semesters")
+    startYear = intCheck(startYearVar.get(), "Starting Year")
+    startSem = startSemVar.get()  # from dropdown
 
+    if numSemesters is None or startYear is None or startSem == "":
+        messagebox.showerror("Invalid Input", "Please select a starting semester.")
+        return
+
+    startingSem = SEMESTERS.index(startSem)
+    semesterList = []
+
+    for i in range(numSemesters):
+        semester_index = (startingSem + i) % len(SEMESTERS)
+        year = startYear + (startingSem + i) // len(SEMESTERS)
+        semesterList.append(f"{SEMESTERS[semester_index]} {year}")
+
+    resultLabel.config(text="\n".join(semesterList))
+    estimatedProgramEndDate.set(semesterList[-1])
+    gradLabel = tk.Label(root, text="Graduation Semester:", font=('calibre', 10, 'bold'))
+    gradResultLabel = tk.Label(root, textvariable=estimatedProgramEndDate, font=('calibre', 10, 'bold'))
+    gradLabel.grid(row=8, column=0, sticky='w')
+    gradResultLabel.grid(row=8, column=1, sticky='w')
 
 
 #Int Check
@@ -40,6 +62,9 @@ def calculate():
         personalFundsNum = intCheck(personalFunds.get(), "Personal Funds")
         numSemesters = intCheck(sem.get(),"Number Of Semesters")
         costAttendance = intCheck(costOfAttendance.get(), "Cost of Attendance")
+
+        #Run prediction?
+        predictSemester()
 
         #Setters to 0 to initialize
         prgSponFunds.set(0)
@@ -80,8 +105,11 @@ def calculate():
         resultLabel.config(text="Needs to be number")
         print("Error code")
         return None
+    
+def onSubmit():
+    calculate()
 
-#Label Program Sponsor Funds
+# -- UI-----------------------------
 
 #Cost of Attendence (annual)
 coa_label = tk.Label(root,
@@ -125,11 +153,19 @@ studentEmployment_label = tk.Label(root,
 text='IWORK Student Employment',
 font=('calibre',10,'bold'))
 
+# Starting Semester dropdown
+startSem_label = tk.Label(root, text='Starting Semester', font=('calibre', 10, 'bold'))
+startSem_dropdown = tk.OptionMenu(root, startSemVar, "Winter", "Spring", "Fall")
+
+# Starting Year entry
+startYear_label = tk.Label(root, text='Starting Year', font=('calibre', 10, 'bold'))
+startYear_entry = tk.Entry(root, textvariable=startYearVar, font=('calibre', 10, 'normal'))
+
 #Submit buttonz
 submitButton = tk.Button(root,
 text='Submit',
 font=('calibre',10,'bold'),
-command=calculate)
+command=onSubmit)
 
 #Result Text
 resultLabel = tk.Label(root, 
@@ -145,8 +181,13 @@ programSponsorFunds_label.grid(row=2,column=0)
 prgSponFunds_entry.grid(row=2,column=1)
 personalFunds_label.grid(row=3,column=0)
 personalFunds_entry.grid(row=3,column=1)
-submitButton.grid(row=4,column=1)
-resultLabel.grid(row=8,column=0)
+startSem_label.grid(row=4, column=0)
+startSem_dropdown.grid(row=4, column=1)
+startYear_label.grid(row=5, column=0)
+startYear_entry.grid(row=5, column=1)
+submitButton.grid(row=6,column=1)
+resultLabel.grid(row=7,column=0)
+
 
 #Loop Window for display
 root.mainloop()
