@@ -161,6 +161,7 @@ startSem_dropdown = tk.OptionMenu(root, startSemVar, "Winter", "Spring", "Fall")
 startYear_label = tk.Label(root, text='Starting Year', font=('calibre', 10, 'bold'))
 startYear_entry = tk.Entry(root, textvariable=startYearVar, font=('calibre', 10, 'normal'))
 
+
 #Submit buttonz
 submitButton = tk.Button(root,
 text='Submit',
